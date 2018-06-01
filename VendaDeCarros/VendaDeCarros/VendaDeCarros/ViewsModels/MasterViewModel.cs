@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Input;
+using VendaDeCarros.Media;
 using VendaDeCarros.Models;
 using Xamarin.Forms;
 
@@ -51,6 +53,17 @@ namespace VendaDeCarros.ViewsModels
             }
         }
 
+        private ImageSource fotoPerfil = "icon.png";
+
+        public ImageSource FotoPerfil
+        {
+            get { return fotoPerfil; }
+            private set
+            {
+                fotoPerfil = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         private readonly Usuario Usuario;
@@ -58,6 +71,7 @@ namespace VendaDeCarros.ViewsModels
         public ICommand PageEditarPerfilCommand { get; private set; }
         public ICommand SalvarPerfilCommand { get; private set; }
         public ICommand EditarPerfilCommand { get; private set; }
+        public ICommand TirarFotoCommand { get; private set; }
 
         public MasterViewModel(Usuario pUsuario)
         {
@@ -83,6 +97,18 @@ namespace VendaDeCarros.ViewsModels
             {
                 this.Editando = true;
             });
+
+            TirarFotoCommand = new Command(() =>
+            {
+                DependencyService.Get<ICamera>().TirarFoto();
+            });
+
+            MessagingCenter.Subscribe<byte[]>(this, "FotoTirada",
+                (bytes) =>
+                {
+                    FotoPerfil = ImageSource.FromStream(() =>
+                     new MemoryStream(bytes));
+                });
         }
     }
 }

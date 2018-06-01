@@ -14,7 +14,9 @@
             <Frame OutlineColor="Silver"
                VerticalOptions="CenterAndExpand"
                Margin="15">
+                
                 <StackLayout VerticalOptions="Center">
+                    <Image Source="{Binding FotoPerfil}"></Image>
                     <Label Text="{Binding Nome}"
                 HorizontalOptions="CenterAndExpand" />
                     <BoxView HeightRequest="1"
@@ -35,6 +37,8 @@
                VerticalOptions="CenterAndExpand"
                Margin="15">
                 <StackLayout VerticalOptions="Center">
+                    <Image Source="{Binding FotoPerfil}"></Image>
+                    <Button Text="Tirar Foto" Command="{Binding TirarFotoCommand}"></Button>
                     <TableView>
                         <TableRoot>
                             <TableSection Title="Dados Pessoais">

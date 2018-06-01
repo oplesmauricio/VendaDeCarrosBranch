@@ -18,6 +18,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Convertes\NegativoConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoginService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ICamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Agendamento.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ListagemVeiculos.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Login.cs" />
