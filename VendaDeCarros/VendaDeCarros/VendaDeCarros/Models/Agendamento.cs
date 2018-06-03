@@ -16,6 +16,7 @@ namespace VendaDeCarros.Models
         public TimeSpan HoraAgendamento { get; set; }
         public string Modelo { get; set; }
         public decimal Preco { get; set; }
+        public bool Confirmado { get; set; }
         #endregion
 
         DateTime dataAgendamento;
@@ -45,20 +46,21 @@ namespace VendaDeCarros.Models
 
         }
 
-        public Agendamento(string pNome, string pFone, string pEmail, string pModelo, decimal pPreco, DateTime pDataAgendamento, TimeSpan pHoraAgendamento)
-            :this( pNome,  pFone,  pEmail,  pModelo,  pPreco)
+        public Agendamento(string pNome, string pFone, string pEmail, string pModelo, decimal pPreco, bool pConfirmado, DateTime pDataAgendamento, TimeSpan pHoraAgendamento)
+            :this( pNome,  pFone,  pEmail,  pModelo,  pPreco, pConfirmado)
         {
             this.DataAgendamento = pDataAgendamento;
             this.HoraAgendamento = pHoraAgendamento;
         }
 
-        public Agendamento(string pNome, string pFone, string pEmail, string pModelo, decimal pPreco)
+        public Agendamento(string pNome, string pFone, string pEmail, string pModelo, decimal pPreco, bool pConfirmado)
         {
             this.Nome = pNome;
             this.Fone = pFone;
             this.Email = pEmail;
             this.Modelo = pModelo;
             this.Preco = pPreco;
+            this.Confirmado = pConfirmado;
         }
     }
 }

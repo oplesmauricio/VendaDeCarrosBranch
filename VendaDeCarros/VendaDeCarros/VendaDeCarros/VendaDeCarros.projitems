@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Convertes\AgendamentoConfirmadoConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Convertes\NegativoConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\AgendamentoDAO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ISQLite.cs" />
@@ -25,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ListagemVeiculos.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Login.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Usuario.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AgendamentoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewsModels\AgendamentosUsuarioViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewsModels\AgendamentoViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewsModels\DetalheViewModel.cs" />

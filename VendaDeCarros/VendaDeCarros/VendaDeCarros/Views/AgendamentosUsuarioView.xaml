@@ -1,20 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:VendaDeCarros.Convertes"
              x:Class="VendaDeCarros.Views.AgendamentosUsuarioView">
 
-    <ListView ItemsSource="{Binding Lista}" Margin="25">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AgendamentoConfirmadoConverter x:Key="AgendamentoConfirmadoConverter"></converters:AgendamentoConfirmadoConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ListView ItemsSource="{Binding Lista}" 
+              Margin="25"
+              SelectedItem="{Binding AgendamentoSelecionadoReenvio}">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
                     <ViewCell.View>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding DataEHoraFormatada}" FontSize="20"
-                                   VerticalOptions="Center"></Label>
+                                   VerticalOptions="Center"
+                                   TextColor="{Binding Confirmado, Converter={StaticResource Key=AgendamentoConfirmadoConverter}}"></Label>
                             <Label Text=" - "
-                                   VerticalOptions="Center"></Label>
+                                   VerticalOptions="Center"
+                                   TextColor="{Binding Confirmado, Converter={StaticResource Key=AgendamentoConfirmadoConverter}}"></Label>
                             <Label Text="{Binding Modelo}" FontAttributes="Bold"
-                                   VerticalOptions="Center"></Label>
+                                   VerticalOptions="Center"
+                                   TextColor="{Binding Confirmado, Converter={StaticResource Key=AgendamentoConfirmadoConverter}}"></Label>
                         </StackLayout>
                     </ViewCell.View>
                 </ViewCell>

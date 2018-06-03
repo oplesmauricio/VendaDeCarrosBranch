@@ -13,6 +13,14 @@ namespace VendaDeCarros.Views
 	public partial class MasterDetailView : MasterDetailPage
 	{
         public readonly Usuario Usuario;
+        //excluir esse ctor
+        public MasterDetailView()
+        {
+            InitializeComponent();
+            this.Usuario.Nome = "x";
+            this.Master = new MasterView(this.Usuario);
+            this.Detail = new NavigationPage(new ListagemView(this.Usuario));
+        }
 
         public MasterDetailView (Usuario pUsuario)
 		{

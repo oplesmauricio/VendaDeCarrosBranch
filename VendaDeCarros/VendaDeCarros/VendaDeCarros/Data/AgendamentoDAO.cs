@@ -34,7 +34,14 @@ namespace VendaDeCarros.Data
 
         public void Salvar(Agendamento pAgendamento)
         {
-            connection.Insert(pAgendamento);
+            if(connection.Find<Agendamento>(pAgendamento.Id) == null)
+            {
+                connection.Insert(pAgendamento);
+            }
+            else
+            {
+                connection.Update(pAgendamento);
+            }
         }
     }
 }
