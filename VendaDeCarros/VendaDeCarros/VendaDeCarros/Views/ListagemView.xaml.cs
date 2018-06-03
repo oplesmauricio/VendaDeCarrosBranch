@@ -15,28 +15,48 @@ namespace VendaDeCarros.Views
 
         public List<Veiculo> Veiculos { get; set; }
 
-        public ListagemView()
+        public Usuario Usuario { get; set; }
+
+        public ListagemView(Usuario pUsuario)
 		{
 			InitializeComponent();
             this.ViewModel = new ListagemViewModel();
+            this.Usuario = pUsuario;
             this.BindingContext = this.ViewModel;
 		}
         
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
+        {
+            AssinarMensagens();
+
+            await this.ViewModel.GetVeiculos();
+
+        }
+
+        private void AssinarMensagens()
         {
             MessagingCenter.Subscribe<Veiculo>(this, "VeiculoSelecionado",
+                            (msg) =>
+                            {
+                                Navigation.PushAsync(new DetalheView(msg, this.Usuario));
+                            });
+
+            MessagingCenter.Subscribe<Exception>(this, "FalhaListagem",
                 (msg) =>
                 {
-                    Navigation.PushAsync(new DetalheView(msg));
+                    DisplayAlert("Erro", "Ocorreu um erro ao obter a listagem de veiculos", "Ok");
                 });
-
-            this.ViewModel.GetVeiculos();
-
         }
 
         protected override void OnDisappearing()
         {
+            CancelarAssinatura();
+        }
+
+        private void CancelarAssinatura()
+        {
             MessagingCenter.Unsubscribe<Veiculo>(this, "VeiculoSelecionado");
+            MessagingCenter.Unsubscribe<Exception>(this, "FalhaListagem");
         }
     }
 }

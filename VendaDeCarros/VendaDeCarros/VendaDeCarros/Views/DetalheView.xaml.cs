@@ -14,12 +14,14 @@ namespace VendaDeCarros.Views
 	public partial class DetalheView : ContentPage
 	{
         public Veiculo Veiculo { get; set; }
+        public Usuario Usuario { get; set; }
 
-        public DetalheView (Veiculo pVeiculo)
+        public DetalheView (Veiculo pVeiculo, Usuario pUsuario)
 		{
 			InitializeComponent ();
             //this.Title = pVeiculo.Nome;
             this.Veiculo = pVeiculo;
+            this.Usuario = pUsuario;
             BindingContext = new DetalheViewModel(pVeiculo);
 		}
 
@@ -27,7 +29,7 @@ namespace VendaDeCarros.Views
         {
             MessagingCenter.Subscribe<Veiculo>(this, "ProximoCommand", (msg) =>
             {
-                Navigation.PushAsync(new AgendamentoView(msg));
+                Navigation.PushAsync(new AgendamentoView(msg, this.Usuario));
             });
         }
 

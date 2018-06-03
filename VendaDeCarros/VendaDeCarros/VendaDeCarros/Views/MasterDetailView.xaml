@@ -4,13 +4,7 @@
              xmlns:view="clr-namespace:VendaDeCarros.Views"
              x:Class="VendaDeCarros.Views.MasterDetailView">
 
-    <MasterDetailPage.Detail>
-        <NavigationPage>
-            <x:Arguments>
-                <view:ListagemView></view:ListagemView>
-            </x:Arguments>
-        </NavigationPage>
-    </MasterDetailPage.Detail>
+
 
 
 </MasterDetailPage>

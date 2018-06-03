@@ -72,12 +72,25 @@ namespace VendaDeCarros.ViewsModels
         public ICommand SalvarPerfilCommand { get; private set; }
         public ICommand EditarPerfilCommand { get; private set; }
         public ICommand TirarFotoCommand { get; private set; }
+        public ICommand MeusAgendamentosCommand { get; private set; }
+        public ICommand NovoAgendamentoCommand { get; private set; }
 
         public MasterViewModel(Usuario pUsuario)
         {
             this.Usuario = pUsuario;
 
             DefinirComandos(pUsuario);
+            AssinarMensagens();
+        }
+
+        private void AssinarMensagens()
+        {
+            MessagingCenter.Subscribe<byte[]>(this, "FotoTirada",
+                            (bytes) =>
+                            {
+                                FotoPerfil = ImageSource.FromStream(() =>
+                                 new MemoryStream(bytes));
+                            });
         }
 
         private void DefinirComandos(Usuario pUsuario)
@@ -103,12 +116,15 @@ namespace VendaDeCarros.ViewsModels
                 DependencyService.Get<ICamera>().TirarFoto();
             });
 
-            MessagingCenter.Subscribe<byte[]>(this, "FotoTirada",
-                (bytes) =>
-                {
-                    FotoPerfil = ImageSource.FromStream(() =>
-                     new MemoryStream(bytes));
-                });
+            MeusAgendamentosCommand = new Command(() =>
+            {
+                MessagingCenter.Send<Usuario>(pUsuario, "MeusAgendamentos");
+            });
+
+            NovoAgendamentoCommand = new Command(() =>
+             {
+                 MessagingCenter.Send<Usuario>(pUsuario, "NovoAgendamento");
+             });
         }
     }
 }

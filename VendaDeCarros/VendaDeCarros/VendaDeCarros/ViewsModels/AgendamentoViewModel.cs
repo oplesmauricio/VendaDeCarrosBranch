@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
+using VendaDeCarros.Data;
 using VendaDeCarros.Models;
 using Xamarin.Forms;
 
@@ -13,11 +14,22 @@ namespace VendaDeCarros.ViewsModels
     {
         public Agendamento Agendamento { get; set; }
 
-        public Veiculo Veiculo
+        private string modelo;
+
+        public string Modelo
         {
-            get { return Agendamento.Veiculo; }
-            set { Agendamento.Veiculo = value; }
+            get { return this.Agendamento.Modelo; }
+            set { this.Agendamento.Modelo = value; }
         }
+
+        private decimal preco;
+
+        public decimal Preco
+        {
+            get { return this.Agendamento.Preco; }
+            set { this.Agendamento.Preco = value; }
+        }
+
 
         public string Nome
         {
@@ -56,7 +68,7 @@ namespace VendaDeCarros.ViewsModels
         {
             get
             {
-                return Agendamento.DataAgendamento = DateTime.Today;
+                return Agendamento.DataAgendamento;
             }
             set
             {
@@ -78,10 +90,10 @@ namespace VendaDeCarros.ViewsModels
 
         public ICommand AgendamentoCommand { get; set; }
 
-        public AgendamentoViewModel(Veiculo pVeiculo)
+        public AgendamentoViewModel(Veiculo pVeiculo, Usuario pUsuario)
         {
-            this.Agendamento = new Agendamento();
-            this.Agendamento.Veiculo = pVeiculo;
+            this.Agendamento = new Agendamento(pUsuario.Nome, pUsuario.Telefone, pUsuario.Email, pVeiculo.Nome, pVeiculo.Preco);
+            
             //objetos anonimos ()
             AgendamentoCommand = new Command(() =>
             {
@@ -104,8 +116,8 @@ namespace VendaDeCarros.ViewsModels
                 nome = Nome,
                 fone = Fone,
                 email = Email,
-                carro = Veiculo.Nome,
-                preco = Veiculo.Preco,
+                carro = Modelo,
+                preco = Preco,
                 dataAgendamento = dataHoraAgendamento
             });
 
@@ -113,13 +125,24 @@ namespace VendaDeCarros.ViewsModels
 
             var resposta = await client.PostAsync("https://aluracar.herokuapp.com/salvaragendamento", conteudo);
 
-            if(resposta.IsSuccessStatusCode)
+            SalvarAgendamentoDB();
+
+            if (resposta.IsSuccessStatusCode)
             {
                 MessagingCenter.Send<Agendamento>(this.Agendamento, "SucessoAgendamento");
             }
             else
             {
                 MessagingCenter.Send<ArgumentException>(new ArgumentException(), "FalhaAgendamento");
+            }
+        }
+
+        private void SalvarAgendamentoDB()
+        {
+            using (var connection = DependencyService.Get<ISQLite>().PegarConexao())
+            {
+                AgendamentoDAO dao = new AgendamentoDAO(connection);
+                dao.Salvar(new Agendamento(Nome, Fone, Email, Modelo, Preco, DataAgendamento, HoraAgendamento));
             }
         }
     }

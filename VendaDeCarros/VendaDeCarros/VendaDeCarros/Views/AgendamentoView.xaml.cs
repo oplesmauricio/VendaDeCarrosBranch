@@ -15,18 +15,13 @@ namespace VendaDeCarros.Views
 	{
         public AgendamentoViewModel ViewModel { get; set; }
 
-        public AgendamentoView (Veiculo pVeiculo)
+        public AgendamentoView (Veiculo pVeiculo, Usuario pUsuario)
 		{
 			InitializeComponent ();
             //this.Title = pVeiculo.Nome;
-            this.ViewModel = new AgendamentoViewModel(pVeiculo);
+            this.ViewModel = new AgendamentoViewModel(pVeiculo, pUsuario);
             this.BindingContext = this.ViewModel;
 		}
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-
-        }
 
         protected override void OnAppearing()
         {
@@ -38,31 +33,33 @@ namespace VendaDeCarros.Views
                 if (confirma)
                 {
                     this.ViewModel.SalvarAgendamento();
-//                    DisplayAlert("Agendamento",
-//        string.Format(@"Nome: {0}
-//\n Fone: {1}
-//E-mail: {2}
-//Data Agendamento: {3}
-//Hora Agendamento: {4}
-//Veiculo: {5}",
-//        ViewModel.Agendamento.Nome,
-//        ViewModel.Agendamento.Fone,
-//        ViewModel.Agendamento.Email,
-//        ViewModel.Agendamento.DataAgendamento.ToString("dd/MM/yyyy"),
-//        ViewModel.Agendamento.HoraAgendamento,
-//        ViewModel.Agendamento.Veiculo.Nome),
-//        "Ok");
+                DisplayAlert("Agendamento",
+    string.Format(@"Nome: {0}
+\n Fone: {1}
+E-mail: {2}
+Data Agendamento: {3}
+Hora Agendamento: {4}
+Veiculo: {5}",
+    ViewModel.Agendamento.Nome,
+    ViewModel.Agendamento.Fone,
+    ViewModel.Agendamento.Email,
+    ViewModel.Agendamento.DataAgendamento.ToString("dd/MM/yyyy"),
+    ViewModel.Agendamento.HoraAgendamento,
+    ViewModel.Agendamento.Modelo),
+        "Ok");
                 }
             });
 
-            MessagingCenter.Subscribe<Agendamento>(this, "SucessoAgendamento", (msg) =>
+            MessagingCenter.Subscribe<Agendamento>(this, "SucessoAgendamento", async (msg) =>
             {
-                DisplayAlert("Agendamento", "Agendamento salvo com sucesso!", "Ok");
+                await DisplayAlert("Agendamento", "Agendamento salvo com sucesso!", "Ok");
+                await Navigation.PopToRootAsync();
             });
 
-            MessagingCenter.Subscribe<ArgumentException>(this, "FalhaAgendamento", (msg) =>
+            MessagingCenter.Subscribe<ArgumentException>(this, "FalhaAgendamento", async (msg) =>
             {
-                DisplayAlert("Agendamento", "Falha ao agendar o test drive! Verifique os dados e tente novamente", "Ok");
+                await DisplayAlert("Agendamento", "Falha ao agendar o test drive! Verifique os dados e tente novamente", "Ok");
+                await Navigation.PopToRootAsync();
             });
         }
 
